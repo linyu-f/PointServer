@@ -27,8 +27,8 @@ db.connection = function(){
     let connection = mysql.createConnection({
         host:'localhost',
         user:'root',
-        password:'root',
-        database:'book',
+        password:'123456',
+        database:'pointsystem',
         port:3306
     });
     //数据库连接

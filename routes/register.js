@@ -1,24 +1,23 @@
 var express = require('express');
 var router = express.Router();
+var db = require('../model/db')
 
 /* GET register listing. */
 router.get('/', function(req, res, next) {
-  let message = req.query;
-  // console.log(message);
-  let username = message.newusername;
-  let password = message.newpassword;
-  let feedBack = "你的用户名：" + username + "\n" + "你的密码：" + password;
-  res.send(feedBack);
+
 });
 
 router.post('/', function(req, res, next) {
-    // console.log(req.body);
-    let newUser = req.body;
-    let username = newUser.params.newusername;
-    let password = newUser.params.newpassword;
-    console.log(username);
-    console.log(password);
-    res.send('这是注册界面Post');
+  let inform = req.body.params;
+  let username = inform.newusername;
+  let password = inform.newpassword;
+  let newUserSQL = 'INSERT INTO users (user_id,user_name,user_password) VALUES(1002,'+'"'+ username +'"'+ ','+'"'+ password +'"'+ ')'
+  let conn = db.connection()
+  db.insert(conn,newUserSQL,'',function(insertId){
+    console.log(insertId)
+  })
+  db.close()
   });
 
 module.exports = router;
+
