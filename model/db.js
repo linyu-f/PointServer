@@ -1,11 +1,31 @@
 let mysql = require('mysql');
 let db = {}
 
+var arr = [];
+//查询操作
+db.query1 = function(connection,sql,paras,callback){
+    let result = connection.query(sql,paras,function (error,results,fields){
+        if(error){
+            console.log(error);
+        }else{
+            // console.log(results);
+            callback(results)
+        }
+    })
+}
+db.query3 = function(connection,sql,paras,callback){
+    connection.query(sql, paras, function (error, results, fields){
+        if(error) throw error;
+        console.log(results);
+    })
+}
+
+
 //插入操作，注意使用异步返回查询结果
 db.insert = function(connection, sql, paras, callback){
     connection.query(sql, paras, function (error, results, fields) {
         if (error) throw error;
-        callback(results.insertId);//返回插入的id
+        callback(results);//返回插入的id
     });
 }
 

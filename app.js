@@ -13,6 +13,25 @@ var app = express();
 let router = express.Router();
 let db = require('./model/db'); 
 
+Date.prototype.format = function(format)
+{
+ var o = {
+ "M+" : this.getMonth()+1, //month
+ "d+" : this.getDate(),    //day
+ "h+" : this.getHours(),   //hour
+ "m+" : this.getMinutes(), //minute
+ "s+" : this.getSeconds(), //second
+ "q+" : Math.floor((this.getMonth()+3)/3),  //quarter
+ "S" : this.getMilliseconds() //millisecond
+ }
+ if(/(y+)/.test(format)) format=format.replace(RegExp.$1,
+ (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+ for(var k in o)if(new RegExp("("+ k +")").test(format))
+ format = format.replace(RegExp.$1,
+ RegExp.$1.length==1 ? o[k] :
+ ("00"+ o[k]).substr((""+ o[k]).length));
+ return format;
+}
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -80,21 +99,6 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
@@ -107,3 +111,4 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
